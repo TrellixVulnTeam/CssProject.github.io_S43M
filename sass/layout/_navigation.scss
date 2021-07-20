@@ -1,0 +1,157 @@
+.navigation {
+  &__checkbox {
+    display: none;
+  }
+  &__button {
+    background-color: $color-white;
+
+    //to cover the background in the beginning, make this slightly larger than background and position it on top of the background
+    height: 7rem;
+    width: 7rem;
+    position: fixed;
+    top: 6rem;
+    right: 6rem;
+    border-radius: 50%;
+    z-index: 2000;
+    box-shadow: 0 1rem 3rem rgba($color-black, 0.1);
+    text-align: center; // make the navigation__icon horizontally center
+    cursor: pointer;
+  }
+  &__background {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+
+    position: fixed; //this takes the element out of the flow and allows us to specify it in relation to a positioned element with a top/left/right/bottom properties
+    top: 6.5rem;
+    right: 6.5rem;
+    background-image: radial-gradient(
+      $color-primary-light,
+      $color-primary-dark
+    ); //gradient starts from middle to all the outside directions
+
+    z-index: 1000; // this only works on the element that has its position already defined.
+
+    transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1); // for the &__checkbox:checked ~ &__background effect
+  }
+  &__nav {
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1500; // in the middle of background & btn
+
+    //make the nav disappear
+    opacity: 0;
+    width: 0;
+
+    transition: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    //for the &__checkbox:checked ~ &__nav effect
+  }
+  &__list {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    list-style: none;
+    text-align: center;
+    width: 100%;
+  }
+  &__item {
+    margin: 1rem;
+  }
+  &__link {
+    &:link,
+    &:visited {
+      display: inline-block; // so that the padding is applied it should
+      font-size: 3rem;
+      font-weight: 300;
+      color: $color-white;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      //these codes below create the effect that the white color zooms in from right to left
+      background-image: linear-gradient(
+        120deg,
+        transparent 0%,
+        transparent 50%,
+        $color-white 50%
+      );
+      background-size: 220%; // make the background size larger, so the transparent and white color becomes larger, then moves to the right
+      transition: all 0.4s;
+      // inside the link
+      span {
+        margin-right: 1.5rem;
+        display: inline-block;
+      }
+    }
+    &:hover,
+    &:active {
+      background-position: 100%; // totally shift the background to the left side
+      color: $color-primary;
+      transform: translateX(1rem);
+    }
+  }
+
+  //functionality
+  &__checkbox:checked ~ &__background {
+    transform: scale(80);
+  }
+  &__checkbox:checked ~ &__nav {
+    opacity: 1;
+    width: 100%;
+  }
+
+  //icon
+  &__icon {
+    //icon itself, before and after
+    margin-top: 3.5rem; //make the navigation__icon vertically center
+
+    position: relative;
+    &,
+    &::before,
+    &::after {
+      width: 3rem;
+      height: 2px;
+      background-color: $color-grey-dark-3;
+      display: inline-block;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      transition: all 0.2s;
+    }
+    &::before {
+      top: -0.8rem; //move it up // we could also use translate scaleY() to do the smae job.
+    }
+    &::after {
+      top: 0.8rem; //move it down
+    }
+  }
+  &__button:hover &__icon::before {
+    //we can do this because the icon is the child of the button
+    top: -1rem;
+  }
+  &__button:hover &__icon::after {
+    //we can do this because the icon is the child of the button
+    top: 1rem;
+  }
+  &__checkbox:checked + &__button &__icon {
+    //when the checkbox is checked ,we select its sibling button, then we could select its child
+    background-color: transparent; // make the icon invisible
+  }
+  &__checkbox:checked + &__button &__icon::before {
+    //rotate before and after element to create the cross (X) symbol
+    top: 0; //  move to the middle
+    transform: rotate(135deg);
+  }
+  &__checkbox:checked + &__button &__icon::after {
+    top: 0;
+    transform: rotate(-135deg);
+  }
+}

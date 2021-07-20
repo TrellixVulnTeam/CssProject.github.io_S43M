@@ -1,0 +1,19 @@
+//basic definition for our whole project
+
+// this sets every element to universal setting
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+
+  /* by setting box-sizing on every element to inherit, it'll automatically inherit whatever we put in body tag on border-box. Th is allow us to change the box-sizing of other components*/
+  box-sizing: inherit;
+}
+html {
+  font-size: 62.5%; /* the rem font-size is based on this root font size. And 1 rem == the root font-size. this 62.5% == 62.5% * 16px(default) ==10px */
+}
+body {
+  /* change the box model so that the border and paddings are no longer added to the total width or height that we specify for a box. Without this any paddings and borders are added to the height or width of an element.*/
+  box-sizing: border-box;
+}

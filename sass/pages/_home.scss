@@ -1,0 +1,65 @@
+.section-about {
+  background-color: $color-grey-light-1;
+  padding: 25rem 0;
+  margin-top: -20vh; //the empty space of the header
+}
+
+.section-features {
+  padding: 20rem 0;
+
+  //these two property are used together
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($color-primary-light, 0.8),
+      rgba($color-primary-dark, 0.8)
+    ),
+    url(../img/nat-4.jpg);
+  background-size: cover; // cover the entire section
+
+  transform: skewY(-7deg);
+  margin-top: -10rem;
+
+  //direct child selector " > ": the * selector selects everthing only if it is a direct child under ".section-features", in this case, this is the " row " class.
+  & > * {
+    transform: skewY(7deg); //compensate the skew(-7deg) above
+  }
+}
+.section-tours {
+  background-color: $color-grey-light-1;
+  padding: 25rem 0 15rem 0;
+  margin-top: -10rem;
+}
+
+.section-stories {
+  padding: 15rem 0;
+  position: relative;
+}
+.section-book {
+  padding: 15rem 0;
+  background-image: linear-gradient(
+    to right bottom,
+    $color-primary-light,
+    $color-primary-dark
+  );
+}
+.book {
+  //solid-color gradient to create a solid line using the gradient, we could specify the two colors at a same degree
+  // the gradient will show between the two degrees
+  //i want white to show at 0-50%, transparent at 50%-100% without using
+  background-image: linear-gradient(
+      105deg,
+      rgba($color-white, 0.9) 0%,
+      rgba($color-white, 0.9) 50%,
+      transparent 50%
+    ),
+    url(../img/nat-10.jpg);
+  background-size: cover; //100% == cover
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba($color-black, 0.2);
+  height: 50rem;
+
+  &__form {
+    width: 50%;
+    padding: 6rem;
+  }
+}

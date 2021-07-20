@@ -1,0 +1,202 @@
+.card {
+  // perspective makes the 3D object looks more real
+  perspective: 150rem; //perspective should be on the parent + the lower the value, the more dramatic the perspective is.
+  -moz-perspective: 150rem; //to let perspective work in firefox
+  position: relative;
+  height: 52rem; // without this line, the card element will collapsed and lose its height, so the column will stick together.
+
+  &__side {
+    height: 52rem;
+    transition: all 0.8s ease;
+
+    position: absolute; //we took the card out of the flow, so their parent collapsed and lose its height, which is similar to the situation of floated elements. The "float" collapsed situation has a "clearfix" solution, BUT in this case ,we could only sdpecify the same height to the parent element.
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden; //So if we don't set this property, we can see the text "front" on the right side of the card, which means we can see the text from the back side. But if we set this property to hidden, we will be no longer be able to see that back part.
+
+    border-radius: 3px;
+
+    overflow: hidden; //the img is too big, the parent is overflow by the img, so the border-radius of the parent is covered by the sharp edge of the img. Then, we could use this property (Content is clipped if necessary to fit the padding box)
+
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    &--front {
+      background-color: $color-white;
+    }
+    &--back {
+      //the back side in the beginning has already rotated (already 180 deg). As we hover the card, then it moves to zero deg.
+      transform: rotateY(180deg);
+
+      &--1 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-secondary-light,
+          $color-secondary-dark
+        );
+      }
+      &--2 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        );
+      }
+      &--3 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-tertiary-light,
+          $color-tertiary-dark
+        );
+      }
+    }
+  }
+
+  //this means when we hover the card, we want the card__side to transform
+  &:hover &__side--front {
+    transform: rotateY(-180deg);
+  }
+  &:hover &__side--back {
+    transform: rotateY(0deg);
+  }
+
+  //front side styling
+  &__picture {
+    background-size: cover;
+    height: 23rem; // without this height, since the &__picture does not have content, the background img will be very small.
+
+    background-blend-mode: screen; //background blend mode describes how the background-image should blend. So we can blend multiple backgroung img (such as linear-gradient and url below) to blend together by this property.
+
+    //since this is quite new tech, we need to add -webkit
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 85%,
+      0 100%
+    ); //clip the picture into a polygon
+
+    //since the clip-path property cause the overflow to disabled, we manully set the picture radius
+    border-top-left-radius: 3px;
+    border-left-top-radius: 3px;
+
+    &--1 {
+      //linear gradient is defined as background-image in CSS
+      background-image: linear-gradient(
+          to right bottom,
+          $color-secondary-light,
+          $color-secondary-dark
+        ),
+        url(../img/nat-5.jpg);
+    }
+    &--2 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        ),
+        url(../img/nat-6.jpg);
+    }
+    &--3 {
+      background-image: linear-gradient(
+          to right bottom,
+          $color-tertiary-light,
+          $color-tertiary-dark
+        ),
+        url(../img/nat-7.jpg);
+    }
+  }
+  &__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: right; //everything aligned to the right side
+
+    color: $color-white;
+
+    //these 3 property are used toghther.
+    position: absolute;
+    top: 12rem;
+    right: 2rem;
+
+    width: 75%; //this width seperate the sentence into two boxes"The Sea" & "Explorer"
+  }
+
+  //this is not a child-element or modifier of heading. It's a new element. So it is not inside the element " &__heading "
+  &__heading-span {
+    //treat "The Sea" & "Explorer" as two different elements by using box-decoration-break and padding;
+    padding: 1rem 1.5rem;
+    //what clone does is to aply all the declarations that we have in the selecter, in this case "padding", to all the boxes i created by an element
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+
+    &--1 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-secondary-light, 0.85),
+        rgba($color-secondary-dark, 0.85)
+      );
+    }
+    &--2 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.85),
+        rgba($color-primary-dark, 0.85)
+      );
+    }
+    &--3 {
+      background-image: linear-gradient(
+        to right bottom,
+        rgba($color-tertiary-light, 0.85),
+        rgba($color-tertiary-dark, 0.85)
+      );
+    }
+  }
+
+  &__details {
+    padding: 3rem;
+    ul {
+      list-style: none; // the stardard when we use unordered list
+
+      width: 80%;
+
+      margin: 0 auto; //to center the 80% width in the card; to center ul (a block element!!) inside a block element.
+
+      li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $color-grey-light-2;
+        }
+      }
+    }
+  }
+
+  //Back side styling
+  &__cta {
+    position: absolute;
+    top: 50%; //move it 50% of the parent element's width
+    left: 50%;
+    transform: translate(
+      -50%,
+      -50%
+    ); //move it -50% of the element's width, not the parent's width
+    width: 90%;
+    text-align: center;
+  }
+  &__price--box {
+    color: $color-white;
+    margin-bottom: 8rem;
+  }
+  &__price--only {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+  &__price--value {
+    font-size: 6rem;
+    font-weight: 100; // make it a big and thin text
+  }
+}

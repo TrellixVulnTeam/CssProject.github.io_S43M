@@ -1,0 +1,47 @@
+@keyframes moveInLeft {
+  /* call this animation moveInleft, 0% is the animation start time, 100% is the end time. It's best to only animate two properties.(opacity + transform)*/
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); /* move the item to the left */
+  }
+  90% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(
+      0
+    ); /* return to theposition same as it look right now */
+  }
+}
+
+@keyframes moveInRight {
+  /*  0% is the animation start time, 100% is the end time. It's best to only animate two properties.(opacity + transform)*/
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); /* move the item to the right */
+  }
+  90% {
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(
+      0
+    ); /* return to theposition same as it look right now */
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); /* move the item to the bottom */
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(
+      0
+    ); /* return to the position same as it look right now */
+  }
+}

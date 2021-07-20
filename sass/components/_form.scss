@@ -1,0 +1,107 @@
+.form {
+  &__group:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+  &__input {
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: inherit;
+    padding: 1.5rem 2rem;
+    border-radius: 2px;
+    background-color: rgba($color-white, 0.5);
+    border: none;
+    border-bottom: 3px solid transparent; // so that the input box doesn't move when it's focuesed
+    width: 90%;
+    display: block;
+    transition: all 0.3s;
+
+    &:focus {
+      //when you click on the input element
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
+      border-bottom: 3px solid $color-primary; //border width, style, color
+    }
+
+    &:focus:invalid {
+      //style the input when the input is focused and the input is invalid
+      border-bottom: 3px solid $color-secondary-dark;
+    }
+
+    &::-webkit-input-placeholder {
+      //style the placeholder
+      color: $color-grey-dark-2;
+    }
+  }
+
+  &__label {
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    display: block; // we need to specify this or else we can't use these box-model properties
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    transition: all 0.3s; // for the effect below, which the label to zoom in with
+  }
+
+  &__input:placeholder-shown + &__label {
+    //creates the effect that after the input is focused, the label immediately comes out.
+    // when the placeholder is shown on the input element, we can then style it. Then use the adjacent sibling selector "+", we can then style the label element, which is the sibling comes immediately "after" the element that we select in the first place.
+    //the general sibling selector "~" can be applied on the any sibling elements "after" the element that is selected
+
+    //when the placeholder is shown, meaning that we have written nothing in out input
+    opacity: 0; // we can animate the opacity
+    visibility: hidden; // the opacity 0, means the element is still on the page but only invisible. the hidden means the element is really gone. // use only visibility can't work because we can not animate the visibility
+    transform: translateY(
+      -4rem
+    ); //to initialize the initial state to located in the upper place
+  }
+
+  &__radio-group {
+    width: 49%;
+    display: inline-block;
+  }
+
+  &__radio-input {
+    display: none;
+  }
+  &__radio-label {
+    font-size: $default-font-size;
+    cursor: pointer;
+    position: relative; // the 2 line is used to place the outter-btn outside the radio btn
+    padding-left: 4.5rem;
+  }
+  &__radio-button {
+    //create the green circle outside
+    height: 3rem;
+    width: 3rem;
+    border: 5px solid $color-primary;
+    border-radius: 50%;
+    display: inline-block; // remind!! the height & width can only be used when you display block;
+
+    position: absolute; // the three line is used to place the outter-btn outside the radio btn
+    left: 0;
+    top: -0.4rem;
+
+    &::after {
+      //create the green dot inside
+      content: ""; //always need content in this pseudo element
+
+      height: 1.3rem;
+      width: 1.3rem;
+      display: inline-block;
+
+      border-radius: 50%;
+      position: absolute; // the parent, in this case "&__radio-button", position can be absolute
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $color-primary;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+  }
+  &__radio-input:checked ~ &__radio-label &__radio-button::after {
+    //after the input is selected, we use the sibiling selector to select the radio label then we can reach its after pseudo element and make it "look like" been selected
+    opacity: 1;
+  }
+}

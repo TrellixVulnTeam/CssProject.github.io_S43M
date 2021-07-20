@@ -1,0 +1,120 @@
+.btn {
+  //the difference between button tag and anchor tag: a button doesn't have the link and visited
+  //this will make the property bellow applied to button tag element
+  &,
+
+  // pseudo-class is a special state of a selector. The link state next to the btn class is a normal state of the button selector. We use pseudo class to style element under special condition
+  //the visited state is when user has already clicked on the button once before and then sees the button again
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+
+    /* it will display as inline default, which would ocuppy other elements' space, so we need to display it as an inline-block, treat it as a text */
+    display: inline-block;
+
+    border-radius: 10rem;
+    transition: all 0.2s; /* all property are animated  */
+
+    /* be the reference position for the btn::after  */
+    position: relative;
+
+    font-size: $default-font-size;
+
+    //Change for the <button> tag element;
+    border: none;
+    cursor: pointer;
+  }
+  &:hover {
+    transform: translateY(-3px);
+    /* positive number is to move down  */
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2); /* 20% opacity black shadow  */
+
+    /* this is an after pseudo-element only when we have the button on the hover state. the initial state of this element is &::after*/
+    &::after {
+      //the hover state of the after btn behind the parent btn
+      transform: scaleX(1.4) scaleY(1.6);
+
+      /* opacity helps it fade out  */
+      opacity: 0;
+    }
+  }
+  /* use active pseudo class to click an element.  */
+  &:active,
+  &:focus // add this in video 43 20:29
+  {
+    outline: none; // cancel the blue border outside
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+  }
+
+  &--white {
+    background-color: $color-white;
+    color: $color-grey-dark;
+    &::after {
+      background-color: $color-white;
+    }
+  }
+
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+    &::after {
+      background-color: $color-primary;
+    }
+  }
+
+  /* this after pseudo element creates the effect of the btn zoom out to infinity when we hover, and it comes back when we hover out.  */
+  &::after {
+    //this create an after btn behind the parent btn
+    /* this content and display elements are necessary for this pseudo element */
+    content: "";
+    display: inline-block;
+
+    /* the 100% means 100% width of the parent button */
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    /* Absolute position need a reference. And the code below put the btn::after behind the origin btn.  */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all 0.4s;
+  }
+  &--animated {
+    /* the last .75s is the delay time of animation  */
+    animation: moveInBottom 0.5s ease-out 0.75s;
+
+    //  this could automatically apply the 0% before the animation starts, so the btn's opacity would be 0 same as the 0% keyframe stage
+    animation-fill-mode: backwards;
+  }
+}
+.btn-text {
+  // learn more btn
+  &:link,
+  &:visited {
+    font-size: $default-font-size;
+    color: $color-primary;
+    display: inline-block; // so we could use padding, margin
+    text-decoration: none;
+
+    //use border-bottom so that we could use padding between the text and the bottom line
+    border-bottom: 1px solid $color-primary;
+    padding: 3px;
+    transition: all 0.2s ease;
+  }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+    background-color: $color-primary;
+    color: $color-white;
+  }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+    background-color: $color-primary;
+    color: $color-white;
+  }
+}
